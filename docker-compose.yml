@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  leafcare-app:
+    build: .
+    container_name: leafcare-app
+    ports:
+      - "8501:8501"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/leafcareDB
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    command: >
+      streamlit run main.py
+      --server.port=8501
+      --server.address=0.0.0.0
+      --server.headless=true
+
+  mongodb:
+    image: mongo:7.0
+    container_name: leafcare-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
