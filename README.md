@@ -15,6 +15,9 @@ LeafCare is an AI-powered application that detects and classifies 38 plant disea
 - Data Handling: Pandas, NumPy
 - Frontend: Streamlit
 - Database & Deployment: MongoDB, Docker
+  
+#### Prediction Test
+<img width="300" height="auto" alt="image" src="https://github.com/user-attachments/assets/e89c5cd5-6169-42f5-a373-9f03fce7cece" />
 
 #### Quick Start
 ###### git clone [https://github.com/NisharaJay/leaf-care-app.git](https://github.com/NisharaJay/leaf-care-app.git)
