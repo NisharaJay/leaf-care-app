@@ -6,3 +6,6 @@ __pycache__
 .ipynb_checkpoints
 *.git
 *.gitignore
+trained_model.keras
+artifacts/
+tf-env/
