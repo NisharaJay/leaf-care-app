@@ -5,7 +5,7 @@ services:
     build: .
     container_name: leafcare-app
     ports:
-      - "8080:8501"
+      - "8502:8501"
     environment:
       - MONGO_URI=mongodb://mongodb:27017/leafcareDB
     depends_on:
