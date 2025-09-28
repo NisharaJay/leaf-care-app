@@ -574,161 +574,184 @@ elif(app_mode=="Disease Recognition"):
     </div>
     """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns([5, 1])  # Made first column wider (2:1 ratio)
+    # File uploader
+    test_image = st.file_uploader(
+        "Choose an Image:", 
+        type=['png', 'jpg', 'jpeg'],
+        help="Upload a clear, well-lit image of a plant leaf"
+    )
     
-    with col1:
+    # Horizontal layout: Image and text/button side by side
+    if test_image is not None:
+        col_img, col_btn = st.columns([1, 1])  # Equal width columns for horizontal layout
         
-        test_image = st.file_uploader(
-            "Choose an Image:", 
-            type=['png', 'jpg', 'jpeg'],
-            help="Upload a clear, well-lit image of a plant leaf"
-        )
-        
-        # Show uploaded image automatically without preview button
-        if test_image is not None:
+        with col_img:
+            # Display image
             st.image(test_image, caption="Uploaded Image", use_container_width=True)
+        
+        with col_btn:
+            # Create some top spacing to align with image
+            st.markdown("<br><br><br>", unsafe_allow_html=True)
             
-            # Show success message and analyze button below the image
+            # Center all content vertically and horizontally
             st.markdown("""
-            <div style="text-align: center; margin-top: 1rem;">
-                <p class="success-message">Image uploaded successfully!</p>
-                <p class="info-message">Ready for analysis - click predict below</p>
+            <div style="
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                padding: 20px;
+            ">
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="margin: 0; font-size: 1.2rem; color: #10b981; font-weight: 600;">
+                        Image uploaded successfully!
+                    </p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1rem; color: #64748b;">
+                        Ready for analysis
+                    </p>
+                </div>
             </div>
             """, unsafe_allow_html=True)
             
-            # Analyze button below the success message
-            if st.button("Analyze Image", use_container_width=True):
-                with st.spinner('Processing image... Please wait'):
-                    result_index = model_prediction(test_image)
-                    
-                    # Reading Labels
-                    class_name = ['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy',
-                                'Blueberry___healthy', 'Cherry_(including_sour)___Powdery_mildew', 
-                                'Cherry_(including_sour)___healthy', 'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 
-                                'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy', 
-                                'Grape___Black_rot', 'Grape___Esca_(Black_Measles)', 'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 
-                                'Grape___healthy', 'Orange___Haunglongbing_(Citrus_greening)', 'Peach___Bacterial_spot',
-                                'Peach___healthy', 'Pepper,_bell___Bacterial_spot', 'Pepper,_bell___healthy', 
-                                'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 
-                                'Raspberry___healthy', 'Soybean___healthy', 'Squash___Powdery_mildew', 
-                                'Strawberry___Leaf_scorch', 'Strawberry___healthy', 'Tomato___Bacterial_spot', 
-                                'Tomato___Early_blight', 'Tomato___Late_blight', 'Tomato___Leaf_Mold', 
-                                'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite', 
-                                'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus',
-                                  'Tomato___healthy']
-                    
-                    prediction = class_name[result_index]
-                    disease_info = get_disease_info(prediction)
-                    
-                    # Format the prediction nicely
-                    plant_name = prediction.split('___')[0].replace('_', ' ')
-                    condition = prediction.split('___')[1].replace('_', ' ')
-                    
-                    # Determine status and styling
-                    if 'healthy' in condition.lower():
-                        icon = "🌿"
-                        status = "HEALTHY PLANT"
-                        result_class = ""
-                        status_class = "status-healthy"
-                    else:
-                        icon = "⚠️"
-                        status = "DISEASE DETECTED"
-                        result_class = "diseased"
-                        status_class = "status-diseased"
-                    
-                    # Display results using full width
-                    st.markdown("---")
-                    st.markdown("<h2 style='text-align: center; color: #f8fafc; margin-bottom: 2rem;'>🔬 Analysis Results</h2>", unsafe_allow_html=True)
-                    
-                    # Use full width for results display
-                    col_result1, col_result2, col_result3 = st.columns([1, 1, 1])
-                    
-                    with col_result1:
+            # Center the analyze button with less spacing
+            col1, col2, col3 = st.columns([1, 2, 1])
+            with col2:
+                analyze_clicked = st.button("Analyze Image", type="primary", use_container_width=True)
+        
+        # Analysis results
+        if analyze_clicked:
+            with st.spinner('Processing image... Please wait'):
+                result_index = model_prediction(test_image)
+                
+                # Reading Labels
+                class_name = ['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy',
+                            'Blueberry___healthy', 'Cherry_(including_sour)___Powdery_mildew', 
+                            'Cherry_(including_sour)___healthy', 'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 
+                            'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy', 
+                            'Grape___Black_rot', 'Grape___Esca_(Black_Measles)', 'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 
+                            'Grape___healthy', 'Orange___Haunglongbing_(Citrus_greening)', 'Peach___Bacterial_spot',
+                            'Peach___healthy', 'Pepper,_bell___Bacterial_spot', 'Pepper,_bell___healthy', 
+                            'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 
+                            'Raspberry___healthy', 'Soybean___healthy', 'Squash___Powdery_mildew', 
+                            'Strawberry___Leaf_scorch', 'Strawberry___healthy', 'Tomato___Bacterial_spot', 
+                            'Tomato___Early_blight', 'Tomato___Late_blight', 'Tomato___Leaf_Mold', 
+                            'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite', 
+                            'Tomato___Target_Spot', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus',
+                              'Tomato___healthy']
+                
+                prediction = class_name[result_index]
+                disease_info = get_disease_info(prediction)
+                
+                # Format the prediction nicely
+                plant_name = prediction.split('___')[0].replace('_', ' ')
+                condition = prediction.split('___')[1].replace('_', ' ')
+                
+                # Determine status and styling
+                if 'healthy' in condition.lower():
+                    icon = "🌿"
+                    status = "HEALTHY PLANT"
+                    result_class = ""
+                    status_class = "status-healthy"
+                else:
+                    icon = "⚠️"
+                    status = "DISEASE DETECTED"
+                    result_class = "diseased"
+                    status_class = "status-diseased"
+                
+                # Display results using full width
+                st.markdown("---")
+                st.markdown("<h2 style='text-align: center; color: #f8fafc; margin-bottom: 2rem;'>Analysis Results</h2>", unsafe_allow_html=True)
+                
+                # Three columns horizontal layout for results
+                col_result1, col_result2, col_result3 = st.columns([1, 1, 1])
+                
+                with col_result1:
+                    st.markdown(f"""
+                    <div class="prediction-result {result_class}" style="height: 100%;">
+                        <h2>{icon}</h2>
+                        <h3>Detection Result</h3>
+                        <p><strong>Plant:</strong> {plant_name.title()}</p>
+                        <p><strong>Condition:</strong> {condition.title()}</p>
+                        <p style="font-size: 1.1rem; margin-top: 1rem; font-weight: 600;">
+                            Status: <span class="{status_class}">{status}</span>
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with col_result2:
+                    # Show disease details if available
+                    if disease_info:
                         st.markdown(f"""
-                        <div class="prediction-result {result_class}" style="height: 100%;">
-                            <h2>{icon}</h2>
-                            <h3>Detection Result</h3>
+                        <div class="feature-card" style="height: 100%;">
+                            <div class="feature-title">Disease Information</div>
+                            <p><strong>Description:</strong> {disease_info['description']}</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"""
+                        <div class="feature-card" style="height: 100%;">
+                            <div class="feature-title">Plant Information</div>
                             <p><strong>Plant:</strong> {plant_name.title()}</p>
-                            <p><strong>Condition:</strong> {condition.title()}</p>
-                            <p style="font-size: 1.1rem; margin-top: 1rem; font-weight: 600;">
-                                Status: <span class="{status_class}">{status}</span>
-                            </p>
+                            <p><strong>Health Status:</strong> {condition.title()}</p>
+                            <p>No specific disease information available in database.</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                with col_result3:
+                    # Show recommendations based on result
+                    if 'healthy' not in condition.lower():
+                        st.markdown("""
+                        <div class="feature-card" style="height: 100%;">
+                            <div class="feature-title">Treatment Recommendations</div>
+                            <p><strong>Immediate Actions:</strong></p>
+                            <p>• Remove affected leaves</p>
+                            <p>• Isolate plant</p>
+                            <p>• Apply appropriate treatment</p>
+                            <p><strong>Long-term Care:</strong></p>
+                            <p>• Improve air circulation</p>
+                            <p>• Adjust watering schedule</p>
+                            <p>• Monitor surrounding plants</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    else:
+                        st.balloons()
+                        st.markdown("""
+                        <div class="feature-card" style="height: 100%;">
+                            <div class="feature-title">Excellent Plant Health!</div>
+                            <p><strong>Keep up the great work:</strong></p>
+                            <p>• Consistent watering</p>
+                            <p>• Proper nutrition</p>
+                            <p>• Adequate sunlight</p>
+                            <p>• Regular monitoring</p>
+                            <p>• Preventive care</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                # Additional detailed information below the horizontal layout
+                st.markdown("---")
+                
+                if 'healthy' not in condition.lower() and disease_info:
+                    col_detail1, col_detail2 = st.columns([1, 1])
+                    
+                    with col_detail1:
+                        st.markdown(f"""
+                        <div class="feature-card">
+                            <div class="feature-title">Detailed Disease Analysis</div>
+                            <p><strong>Full Description:</strong> {disease_info['description']}</p>
+                            <p><strong>Recommended Solution:</strong> {disease_info['solution']}</p>
                         </div>
                         """, unsafe_allow_html=True)
                     
-                    with col_result2:
-                        # Show disease details if available
-                        if disease_info:
-                            st.markdown(f"""
-                            <div class="feature-card" style="height: 100%;">
-                                <div class="feature-title">📋 Disease Information</div>
-                                <p><strong>Description:</strong> {disease_info['description']}</p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                        else:
-                            st.markdown(f"""
-                            <div class="feature-card" style="height: 100%;">
-                                <div class="feature-title">📋 Plant Information</div>
-                                <p><strong>Plant:</strong> {plant_name.title()}</p>
-                                <p><strong>Health Status:</strong> {condition.title()}</p>
-                                <p>No specific disease information available in database.</p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                    
-                    with col_result3:
-                        # Show recommendations based on result
-                        if 'healthy' not in condition.lower():
-                            st.markdown("""
-                            <div class="feature-card" style="height: 100%;">
-                                <div class="feature-title">🩺 Treatment Recommendations</div>
-                                <p><strong>Immediate Actions:</strong></p>
-                                <p>• Remove affected leaves</p>
-                                <p>• Isolate plant</p>
-                                <p>• Apply appropriate treatment</p>
-                                <p><strong>Long-term Care:</strong></p>
-                                <p>• Improve air circulation</p>
-                                <p>• Adjust watering schedule</p>
-                                <p>• Monitor surrounding plants</p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                        else:
-                            st.balloons()
-                            st.markdown("""
-                            <div class="feature-card" style="height: 100%;">
-                                <div class="feature-title">🎉 Excellent Plant Health!</div>
-                                <p><strong>Keep up the great work:</strong></p>
-                                <p>• Consistent watering</p>
-                                <p>• Proper nutrition</p>
-                                <p>• Adequate sunlight</p>
-                                <p>• Regular monitoring</p>
-                                <p>• Preventive care</p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                    
-                    # Additional detailed information below the horizontal layout
-                    st.markdown("---")
-                    
-                    if 'healthy' not in condition.lower() and disease_info:
-                        col_detail1, col_detail2 = st.columns([1, 1])
-                        
-                        with col_detail1:
-                            st.markdown(f"""
-                            <div class="feature-card">
-                                <div class="feature-title">🔬 Detailed Disease Analysis</div>
-                                <p><strong>Full Description:</strong> {disease_info['description']}</p>
-                                <p><strong>Recommended Solution:</strong> {disease_info['solution']}</p>
-                            </div>
-                            """, unsafe_allow_html=True)
-                        
-                        with col_detail2:
-                            st.markdown("""
-                            <div class="feature-card">
-                                <div class="feature-title">📝 Additional Recommendations</div>
-                                <p><strong>Preventive Measures:</strong></p>
-                                <p>• Regular inspection of plants</p>
-                                <p>• Proper spacing between plants</p>
-                                <p>• Use of disease-resistant varieties</p>
-                                <p>• Crop rotation practices</p>
-                                <p>• Sanitation of gardening tools</p>
-                            </div>
-                            """, unsafe_allow_html=True)
+                    with col_detail2:
+                        st.markdown("""
+                        <div class="feature-card">
+                            <div class="feature-title">Additional Recommendations</div>
+                            <p><strong>Preventive Measures:</strong></p>
+                            <p>• Regular inspection of plants</p>
+                            <p>• Proper spacing between plants</p>
+                            <p>• Use of disease-resistant varieties</p>
+                            <p>• Crop rotation practices</p>
+                            <p>• Sanitation of gardening tools</p>
+                        </div>
+                        """, unsafe_allow_html=True)
