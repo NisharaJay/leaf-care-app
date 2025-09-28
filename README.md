@@ -21,7 +21,7 @@ LeafCare is an AI-powered application that detects and classifies 38 plant disea
 
 #### Quick Start
 ```bash
-git clone [https://github.com/NisharaJay/leaf-care-app.git](https://github.com/NisharaJay/leaf-care-app.git)
+git clone https://github.com/NisharaJay/leaf-care-app.git
 cd leafcare
 pip install -r requirements.txt
 streamlit run main.py
