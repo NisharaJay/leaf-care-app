@@ -11,7 +11,7 @@ LeafCare is an AI-powered application that detects and classifies 38 plant disea
 - User-Friendly Interface: Built with Streamlit for a simple, interactive experience.
 
 #### Tech Stack
-- ML/AI: Python, TensorFlow/Keras, OpenCV
+- ML/AI: Python, TensorFlow/Keras
 - Data Handling: Pandas, NumPy
 - Frontend: Streamlit
 - Database & Deployment: MongoDB, Docker
@@ -20,7 +20,17 @@ LeafCare is an AI-powered application that detects and classifies 38 plant disea
 <img width="300" height="auto" alt="image" src="https://github.com/user-attachments/assets/e89c5cd5-6169-42f5-a373-9f03fce7cece" />
 
 #### Quick Start
-###### git clone [https://github.com/NisharaJay/leaf-care-app.git](https://github.com/NisharaJay/leaf-care-app.git)
-###### cd leafcare
-###### pip install -r requirements.txt
-###### streamlit run main.py
+```bash
+git clone [https://github.com/NisharaJay/leaf-care-app.git](https://github.com/NisharaJay/leaf-care-app.git)
+cd leafcare
+pip install -r requirements.txt
+streamlit run main.py
+```
+
+#### Docker
+You can run this app using Docker without setting up dependencies locally.
+
+##### Pull the image from Docker Hub
+```bash
+docker pull nisharajay/leaf-care-app:latest
+
