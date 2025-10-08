@@ -37,5 +37,5 @@ docker pull nisharajay/leaf-care-app:latest
 
 ##### App Preview
 
-<img width="450" height="auto" alt="leaff-image-upload" src="https://github.com/user-attachments/assets/05bbab23-4e5c-4c58-b221-22104a928c40" />
+<img width="400" height="auto" alt="leaff-image-upload" src="https://github.com/user-attachments/assets/05bbab23-4e5c-4c58-b221-22104a928c40" />
 <img width="400" height="auto" alt="leaf-disease-analysis" src="https://github.com/user-attachments/assets/7dbf4c87-25e4-4262-b7de-9c98a3d99927" />
