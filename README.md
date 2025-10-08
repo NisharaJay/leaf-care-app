@@ -5,7 +5,7 @@ LeafCare is an AI-powered application that detects and classifies 38 plant disea
 #### Features
 - Detect Multiple Diseases: Classifies 38 different plant diseases.
 - Real-Time Predictions: Upload a leaf image and get instant results.
-- Data Augmentation & Preprocessing: Improves model accuracy and generalization.
+- Data Preprocessing: Improves model accuracy and generalization.
 - Database Integration: Stores user submissions and prediction history with MongoDB.
 - Dockerized Deployment: Easy setup and scalable deployment.
 - User-Friendly Interface: Built with Streamlit for a simple, interactive experience.
